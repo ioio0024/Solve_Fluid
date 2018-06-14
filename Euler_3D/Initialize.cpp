@@ -1,10 +1,13 @@
 #include "global_definitions.h"
 #include "Fluid3D.h"
+#include "OutflowBoundary.h"
+#include "ReflectBoundary.h"
 
 Fluid3D& Fluid3D::Initialize(Int32 size_x, Int32 size_y, Int32 size_z,
                              Real xmin, Real xmax,
                              Real ymin, Real ymax,
-                             Real zmin, Real zmax, Real gamma,
+                             Real zmin, Real zmax,
+                             Real gamma,
                              std::function<void (const Rvec &,
                                                  const Rvec &,
                                                  const Rvec &,
@@ -344,8 +347,6 @@ Fluid3D& Fluid3D::Initialize(Int32 size_x, Int32 size_y, Int32 size_z,
       }
     }
   }
-
-  BoundaryConditions();
 
   NewDt();
   dt_ *= 0.01;

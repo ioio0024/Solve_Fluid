@@ -49,6 +49,79 @@ public:
                                          Vector3DR*,
                                          Vector3DR*,
                                          Vector3DR*)> init_func);
+
+  void SetBCXLeft(std::function<void
+                  (Int32 /*is*/, Int32 /*ie*/,
+                   Int32 /*js*/, Int32 /*je*/,
+                   Int32 /*ks*/, Int32 /*ke*/,
+                   Vector3DR */*d_sia*/,
+                   Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                   Vector3DR */*p_sia*/,
+                   Vector3DR */*d_via*/,
+                   Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                   Vector3DR */*p_via*/) noexcept> bc)
+  { bc_x_left_ = bc; }
+
+  void SetBCXRight(std::function<void
+                   (Int32 /*is*/, Int32 /*ie*/,
+                    Int32 /*js*/, Int32 /*je*/,
+                    Int32 /*ks*/, Int32 /*ke*/,
+                    Vector3DR */*d_sia*/,
+                    Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                    Vector3DR */*p_sia*/,
+                    Vector3DR */*d_via*/,
+                    Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                    Vector3DR */*p_via*/) noexcept> bc)
+  { bc_x_right_ = bc; }
+
+  void SetBCYLeft(std::function<void
+                  (Int32 /*is*/, Int32 /*ie*/,
+                   Int32 /*js*/, Int32 /*je*/,
+                   Int32 /*ks*/, Int32 /*ke*/,
+                   Vector3DR */*d_sia*/,
+                   Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                   Vector3DR */*p_sia*/,
+                   Vector3DR */*d_via*/,
+                   Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                   Vector3DR */*p_via*/) noexcept> bc)
+  { bc_y_left_ = bc; }
+
+  void SetBCYRight(std::function<void
+                   (Int32 /*is*/, Int32 /*ie*/,
+                    Int32 /*js*/, Int32 /*je*/,
+                    Int32 /*ks*/, Int32 /*ke*/,
+                    Vector3DR */*d_sia*/,
+                    Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                    Vector3DR */*p_sia*/,
+                    Vector3DR */*d_via*/,
+                    Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                    Vector3DR */*p_via*/) noexcept> bc)
+  { bc_y_right_ = bc; }
+
+  void SetBCZLeft(std::function<void
+                  (Int32 /*is*/, Int32 /*ie*/,
+                   Int32 /*js*/, Int32 /*je*/,
+                   Int32 /*ks*/, Int32 /*ke*/,
+                   Vector3DR */*d_sia*/,
+                   Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                   Vector3DR */*p_sia*/,
+                   Vector3DR */*d_via*/,
+                   Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                   Vector3DR */*p_via*/) noexcept> bc)
+  { bc_z_left_ = bc; }
+
+  void SetBCZRight(std::function<void
+                   (Int32 /*is*/, Int32 /*ie*/,
+                    Int32 /*js*/, Int32 /*je*/,
+                    Int32 /*ks*/, Int32 /*ke*/,
+                    Vector3DR */*d_sia*/,
+                    Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                    Vector3DR */*p_sia*/,
+                    Vector3DR */*d_via*/,
+                    Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                    Vector3DR */*p_via*/) noexcept> bc)
+  { bc_z_right_ = bc; }
+
 private:
   Int32 nx_, ny_, nz_;
   Real xmin_, xmax_;
@@ -163,6 +236,66 @@ private:
   Vector3DR mflux_;
   Vector3DR nflux_;
   Vector3DR eflux_;
+
+  std::function<void(Int32 /*is*/, Int32 /*ie*/,
+                     Int32 /*js*/, Int32 /*je*/,
+                     Int32 /*ks*/, Int32 /*ke*/,
+                     Vector3DR */*d_sia*/,
+                     Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                     Vector3DR */*p_sia*/,
+                     Vector3DR */*d_via*/,
+                     Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                     Vector3DR */*p_via*/) noexcept> bc_x_left_;
+
+  std::function<void(Int32 /*is*/, Int32 /*ie*/,
+                     Int32 /*js*/, Int32 /*je*/,
+                     Int32 /*ks*/, Int32 /*ke*/,
+                     Vector3DR */*d_sia*/,
+                     Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                     Vector3DR */*p_sia*/,
+                     Vector3DR */*d_via*/,
+                     Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                     Vector3DR */*p_via*/) noexcept> bc_x_right_;
+
+  std::function<void(Int32 /*is*/, Int32 /*ie*/,
+                     Int32 /*js*/, Int32 /*je*/,
+                     Int32 /*ks*/, Int32 /*ke*/,
+                     Vector3DR */*d_sia*/,
+                     Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                     Vector3DR */*p_sia*/,
+                     Vector3DR */*d_via*/,
+                     Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                     Vector3DR */*p_via*/) noexcept> bc_y_left_;
+
+  std::function<void(Int32 /*is*/, Int32 /*ie*/,
+                     Int32 /*js*/, Int32 /*je*/,
+                     Int32 /*ks*/, Int32 /*ke*/,
+                     Vector3DR */*d_sia*/,
+                     Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                     Vector3DR */*p_sia*/,
+                     Vector3DR */*d_via*/,
+                     Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                     Vector3DR */*p_via*/) noexcept> bc_y_right_;
+
+  std::function<void(Int32 /*is*/, Int32 /*ie*/,
+                     Int32 /*js*/, Int32 /*je*/,
+                     Int32 /*ks*/, Int32 /*ke*/,
+                     Vector3DR */*d_sia*/,
+                     Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                     Vector3DR */*p_sia*/,
+                     Vector3DR */*d_via*/,
+                     Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                     Vector3DR */*p_via*/) noexcept> bc_z_left_;
+
+  std::function<void(Int32 /*is*/, Int32 /*ie*/,
+                     Int32 /*js*/, Int32 /*je*/,
+                     Int32 /*ks*/, Int32 /*ke*/,
+                     Vector3DR */*d_sia*/,
+                     Vector3DR */*u_sia*/, Vector3DR */*v_sia*/, Vector3DR */*w_sia*/,
+                     Vector3DR */*p_sia*/,
+                     Vector3DR */*d_via*/,
+                     Vector3DR */*u_via*/, Vector3DR */*v_via*/, Vector3DR */*w_via*/,
+                     Vector3DR */*p_via*/) noexcept> bc_z_right_;
 
   void NewDt() noexcept;
 

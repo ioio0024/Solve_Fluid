@@ -8,6 +8,8 @@ void Fluid3D::MainLoop(Int32 loop_max, Int32 out_step,
 {
   Int32 output = 0;
 
+  BoundaryConditions();
+
   for(auto step = 0; step < loop_max; ++step){
     if(step % out_step == 0){
       Output(fname_base, output);

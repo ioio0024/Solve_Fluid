@@ -28,6 +28,8 @@ set(SRC
         "AdvectionZ.cpp"
         "CipCsl3.cpp"
         "FluidInitialize.cpp"
+        "OutflowBoundary.cpp"
+        "ReflectBoundary.cpp"
         )
 
 add_executable(${PROJECT_NAME} ${SRC})

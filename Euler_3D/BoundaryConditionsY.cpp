@@ -4,214 +4,70 @@
 void Fluid3D::BoundaryConditionsY() noexcept
 {
   // Y Left
-  // PV
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        density_pv_(i, j, k) = density_pv_(i, GHOST, k);
-        vx_pv_(i, j, k) = vx_pv_(i, GHOST, k);
-        vy_pv_(i, j, k) = 0.0;
-        vz_pv_(i, j, k) = vz_pv_(i, GHOST, k);
-        pressure_pv_(i, j, k) = pressure_pv_(i, GHOST, k);
-      }
-    }
-  }
-  // LIA x
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        density_lia_x_(i, j, k) = density_lia_x_(i, GHOST, k);
-        vx_lia_x_(i, j, k) = vx_lia_x_(i, GHOST, k);
-        vy_lia_x_(i, j, k) = 0.0;
-        vz_lia_x_(i, j, k) = vz_lia_x_(i, GHOST, k);
-        pressure_lia_x_(i, j, k) = pressure_lia_x_(i, GHOST, k);
-      }
-    }
-  }
-  // LIA y
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        density_lia_y_(i, j, k) = density_lia_y_(i, GHOST, k);
-        vx_lia_y_(i, j, k) = vx_lia_y_(i, GHOST, k);
-        vy_lia_y_(i, j, k) = -vy_lia_y_(i, GHOST, k);
-        vz_lia_y_(i, j, k) = vz_lia_y_(i, GHOST, k);
-        pressure_lia_y_(i, j, k) = pressure_lia_y_(i, GHOST, k);
-      }
-    }
-  }
-  // LIA z
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        density_lia_z_(i, j, k) = density_lia_z_(i, GHOST, k);
-        vx_lia_z_(i, j, k) = vx_lia_z_(i, GHOST, k);
-        vy_lia_z_(i, j, k) = 0.0;
-        vz_lia_z_(i, j, k) = vz_lia_z_(i, GHOST, k);
-        pressure_lia_z_(i, j, k) = pressure_lia_z_(i, GHOST, k);
-      }
-    }
-  }
-  // SIA x
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        density_sia_x_(i, j, k) = density_sia_x_(i, GHOST, k);
-        vx_sia_x_(i, j, k) = vx_sia_x_(i, GHOST, k);
-        vy_sia_x_(i, j, k) = -vy_sia_x_(i, GHOST, k);
-        vz_sia_x_(i, j, k) = vz_sia_x_(i, GHOST, k);
-        pressure_sia_x_(i, j, k) = pressure_sia_x_(i, GHOST, k);
-      }
-    }
-  }
-  // SIA y
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        density_sia_y_(i, j, k) = density_sia_y_(i, GHOST, k);
-        vx_sia_y_(i, j, k) = vx_sia_y_(i, GHOST, k);
-        vy_sia_y_(i, j, k) = 0.0;
-        vz_sia_y_(i, j, k) = vz_sia_y_(i, GHOST, k);
-        pressure_sia_y_(i, j, k) = pressure_sia_y_(i, GHOST, k);
-      }
-    }
-  }
-  // SIA z
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        density_sia_z_(i, j, k) = density_sia_z_(i, GHOST, k);
-        vx_sia_z_(i, j, k) = vx_sia_z_(i, GHOST, k);
-        vy_sia_z_(i, j, k) = -vy_sia_z_(i, GHOST, k);
-        vz_sia_z_(i, j, k) = vz_sia_z_(i, GHOST, k);
-        pressure_sia_z_(i, j, k) = pressure_sia_z_(i, GHOST, k);
-      }
-    }
-  }
-  // VIA
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        density_via_(i, j, k) = density_via_(i, GHOST, k);
-        vx_via_(i, j, k) = vx_via_(i, GHOST, k);
-        vy_via_(i, j, k) = -vy_via_(i, GHOST, k);
-        vz_via_(i, j, k) = vz_via_(i, GHOST, k);
-        pressure_via_(i, j, k) = pressure_via_(i, GHOST, k);
-      }
-    }
-  }
+  // PV and LIA y
+  bc_y_left_(0, nx_ + 1, 0, GHOST + 1, 0, nz_ + 1,
+             &density_pv_,
+             &vx_pv_, &vy_pv_, &vz_pv_,
+             &pressure_pv_,
+             &density_lia_y_,
+             &vx_lia_y_, &vy_lia_y_, &vz_lia_y_,
+             &pressure_lia_y_);
+  // LIA z and SIA x
+  bc_y_left_(0, nx_ + 1, 0, GHOST + 1, 0, nz_,
+             &density_lia_z_,
+             &vx_lia_z_, &vy_lia_z_, &vz_lia_z_,
+             &pressure_lia_z_,
+             &density_sia_x_,
+             &vx_sia_x_, &vy_sia_x_, &vz_sia_x_,
+             &pressure_sia_x_);
+  // LIA x and SIA z
+  bc_y_left_(0, nx_, 0, GHOST + 1, 0, nz_ + 1,
+             &density_lia_x_,
+             &vx_lia_x_, &vy_lia_x_, &vz_lia_x_,
+             &pressure_lia_x_,
+             &density_sia_z_,
+             &vx_sia_z_, &vy_sia_z_, &vz_sia_z_,
+             &pressure_sia_z_);
+  // SIA y and VIA
+  bc_y_left_(0, nx_, 0, GHOST + 1, 0, nz_,
+             &density_sia_y_,
+             &vx_sia_y_, &vy_sia_y_, &vz_sia_y_,
+             &pressure_sia_y_,
+             &density_via_,
+             &vx_via_, &vy_via_, &vz_via_,
+             &pressure_via_);
 
   // Y Right
-  // PV
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        auto n = ny_ - j;
-        auto ne = ny_ - GHOST;
-        density_pv_(i, n, k) = density_pv_(i, ne, k);
-        vx_pv_(i, n, k) = vx_pv_(i, ne, k);
-        vy_pv_(i, n, k) = 0.0;
-        vz_pv_(i, n, k) = vz_pv_(i, ne, k);
-        pressure_pv_(i, n, k) = pressure_pv_(i, ne, k);
-      }
-    }
-  }
-  // LIA x
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        auto n = ny_ - j;
-        auto ne = ny_ - GHOST;
-        density_lia_x_(i, n, k) = density_lia_x_(i, ne, k);
-        vx_lia_x_(i, n, k) = vx_lia_x_(i, ne, k);
-        vy_lia_x_(i, n, k) = 0.0;
-        vz_lia_x_(i, n, k) = vz_lia_x_(i, ne, k);
-        pressure_lia_x_(i, n, k) = pressure_lia_x_(i, ne, k);
-      }
-    }
-  }
-  // LIA y
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        auto n = ny_ - j - 1;
-        auto ne = ny_ - GHOST - 1;
-        density_lia_y_(i, n, k) = density_lia_y_(i, ne, k);
-        vx_lia_y_(i, n, k) = vx_lia_y_(i, ne, k);
-        vy_lia_y_(i, n, k) = -vy_lia_y_(i, ne, k);
-        vz_lia_y_(i, n, k) = vz_lia_y_(i, ne, k);
-        pressure_lia_y_(i, n, k) = pressure_lia_y_(i, ne, k);
-      }
-    }
-  }
-  // LIA z
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        auto n = ny_ - j;
-        auto ne = ny_ - GHOST;
-        density_lia_z_(i, n, k) = density_lia_z_(i, ne, k);
-        vx_lia_z_(i, n, k) = vx_lia_z_(i, ne, k);
-        vy_lia_z_(i, n, k) = 0.0;
-        vz_lia_z_(i, n, k) = vz_lia_z_(i, ne, k);
-        pressure_lia_z_(i, n, k) = pressure_lia_z_(i, ne, k);
-      }
-    }
-  }
-  // SIA x
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_ + 1; ++i){
-        auto n = ny_ - j - 1;
-        auto ne = ny_ - GHOST - 1;
-        density_sia_x_(i, n, k) = density_sia_x_(i, ne, k);
-        vx_sia_x_(i, n, k) = vx_sia_x_(i, ne, k);
-        vy_sia_x_(i, n, k) = -vy_sia_x_(i, ne, k);
-        vz_sia_x_(i, n, k) = vz_sia_x_(i, ne, k);
-        pressure_sia_x_(i, n, k) = pressure_sia_x_(i, ne, k);
-      }
-    }
-  }
-  // SIA y
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST + 1; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        auto n = ny_ - j;
-        auto ne = ny_ - GHOST;
-        density_sia_y_(i, n, k) = density_sia_y_(i, ne, k);
-        vx_sia_y_(i, n, k) = vx_sia_y_(i, ne, k);
-        vy_sia_y_(i, n, k) = 0.0;
-        vz_sia_y_(i, n, k) = vz_sia_y_(i, ne, k);
-        pressure_sia_y_(i, n, k) = pressure_sia_y_(i, ne, k);
-      }
-    }
-  }
-  // SIA z
-  for(auto k = 0; k < nz_ + 1; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        auto n = ny_ - j - 1;
-        auto ne = ny_ - GHOST - 1;
-        density_sia_z_(i, n, k) = density_sia_z_(i, ne, k);
-        vx_sia_z_(i, n, k) = vx_sia_z_(i, ne, k);
-        vy_sia_z_(i, n, k) = -vy_sia_z_(i, ne, k);
-        vz_sia_z_(i, n, k) = vz_sia_z_(i, ne, k);
-        pressure_sia_z_(i, n, k) = pressure_sia_z_(i, ne, k);
-      }
-    }
-  }
-  // VIA
-  for(auto k = 0; k < nz_; ++k){
-    for(auto j = 0; j < GHOST; ++j){
-      for(auto i = 0; i < nx_; ++i){
-        auto n = ny_ - j - 1;
-        auto ne = ny_ - GHOST - 1;
-        density_via_(i, n, k) = density_via_(i, ne, k);
-        vx_via_(i, n, k) = vx_via_(i, ne, k);
-        vy_via_(i, n, k) = -vy_via_(i, ne, k);
-        vz_via_(i, n, k) = vz_via_(i, ne, k);
-        pressure_via_(i, n, k) = pressure_via_(i, ne, k);
-      }
-    }
-  }
+  // PV and LIA y
+  bc_y_right_(0, nx_ + 1, ny_ - GHOST, ny_ + 1, 0, nz_ + 1,
+              &density_pv_,
+              &vx_pv_, &vy_pv_, &vz_pv_,
+              &pressure_pv_,
+              &density_lia_y_,
+              &vx_lia_y_, &vy_lia_y_, &vz_lia_y_,
+              &pressure_lia_y_);
+  // LIA z and SIA x
+  bc_y_right_(0, nx_ + 1, ny_ - GHOST, ny_ + 1, 0, nz_,
+              &density_lia_z_,
+              &vx_lia_z_, &vy_lia_z_, &vz_lia_z_,
+              &pressure_lia_z_,
+              &density_sia_x_,
+              &vx_sia_x_, &vy_sia_x_, &vz_sia_x_,
+              &pressure_sia_x_);
+  // LIA x and SIA z
+  bc_y_right_(0, nx_, ny_ - GHOST, ny_ + 1, 0, nz_ + 1,
+              &density_lia_x_,
+              &vx_lia_x_, &vy_lia_x_, &vz_lia_x_,
+              &pressure_lia_x_,
+              &density_sia_z_,
+              &vx_sia_z_, &vy_sia_z_, &vz_sia_z_,
+              &pressure_sia_z_);
+  // SIA y and VIA
+  bc_y_right_(0, nx_, ny_ - GHOST, ny_ + 1, 0, nz_,
+              &density_sia_y_,
+              &vx_sia_y_, &vy_sia_y_, &vz_sia_y_,
+              &pressure_sia_y_,
+              &density_via_,
+              &vx_via_, &vy_via_, &vz_via_,
+              &pressure_via_);
 }
