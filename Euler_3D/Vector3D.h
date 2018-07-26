@@ -11,8 +11,8 @@ class Vector3D
 {
 public:
   Vector3D();
-  Vector3D(Int32 nx, Int32 ny, Int32 nz); // 0で初期化
-  Vector3D(Int32 nx, Int32 ny, Int32 nz, T val); // valで初期化
+  Vector3D(Int32 nx, Int32 ny = 1, Int32 nz = 1); // 0で初期化
+  Vector3D(T val, Int32 nx, Int32 ny = 1, Int32 nz = 1); // valで初期化
 
   ~Vector3D(){
     delete[] data_;
@@ -37,7 +37,7 @@ public:
     return nx_ * ny_ * nz_;
   }
 
-  const T& operator()(Int32 i, Int32 j = 1, Int32 k = 1) const noexcept
+  const T& operator()(Int32 i, Int32 j = 0, Int32 k = 0) const noexcept
   {
     assert(i >= 0 && i < nx_);
     assert(j >= 0 && j < ny_);
@@ -45,7 +45,7 @@ public:
     return data_[nx_ * (ny_ * k + j) + i];
   }
 
-  T& operator()(Int32 i, Int32 j = 1, Int32 k = 1) noexcept
+  T& operator()(Int32 i, Int32 j = 0, Int32 k = 0) noexcept
   {
     assert(i >= 0 && i < nx_);
     assert(j >= 0 && j < ny_);
@@ -74,7 +74,7 @@ Vector3D<T>::Vector3D(Int32 nx, Int32 ny, Int32 nz)
 {}
 
 template <typename T>
-Vector3D<T>::Vector3D(Int32 nx, Int32 ny, Int32 nz, T val)
+Vector3D<T>::Vector3D(T val, Int32 nx, Int32 ny, Int32 nz)
  : nx_(nx), ny_(ny), nz_(nz), data_(new T[nx * ny * nz])
 {
   for(auto n = 0; n < nx * ny * nz; ++n){

@@ -1,204 +1,186 @@
 #include "ReflectBoundary.h"
 
-void ReflectBoundaryXLeft(Int32 is, Int32 ie,
-                          Int32 js, Int32 je,
-                          Int32 ks, Int32 ke,
-                          Vector3DR *d_sia,
-                          Vector3DR *u_sia, Vector3DR *v_sia, Vector3DR *w_sia,
-                          Vector3DR *p_sia,
-                          Vector3DR *d_via,
-                          Vector3DR *u_via, Vector3DR *v_via, Vector3DR *w_via,
-                          Vector3DR *p_via) noexcept
+void ReflectBoundaryXLeft::operator ()(Int32 is, Int32 ie,
+                                       Int32 js, Int32 je,
+                                       Int32 ks, Int32 ke,
+                                       FluidQuantity3DArray *sia,
+                                       FluidQuantity3DArray *via
+                                      ) noexcept
 {
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_sia)(i, j, k) = (*d_sia)(ie - 1, j, k);
-        (*u_sia)(i, j, k) = 0.0;
-        (*v_sia)(i, j, k) = (*v_sia)(ie - 1, j, k);
-        (*w_sia)(i, j, k) = (*w_sia)(ie - 1, j, k);
-        (*p_sia)(i, j, k) = (*p_sia)(ie - 1, j, k);
+        sia->d(i, j, k) = sia->d(ie - 1, j, k);
+        sia->u(i, j, k) = 0.0;
+        sia->v(i, j, k) = sia->v(ie - 1, j, k);
+        sia->w(i, j, k) = sia->w(ie - 1, j, k);
+        sia->p(i, j, k) = sia->p(ie - 1, j, k);
       }
     }
   }
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie - 1; ++i){
-        (*d_via)(i, j, k) = (*d_via)(ie - 1, j, k);
-        (*u_via)(i, j, k) = -(*u_via)(ie - 1, j, k);
-        (*v_via)(i, j, k) = (*v_via)(ie - 1, j, k);
-        (*w_via)(i, j, k) = (*w_via)(ie - 1, j, k);
-        (*p_via)(i, j, k) = (*p_via)(ie - 1, j, k);
+        via->d(i, j, k) = via->d(ie - 1, j, k);
+        via->u(i, j, k) = -via->u(ie - 1, j, k);
+        via->v(i, j, k) = via->v(ie - 1, j, k);
+        via->w(i, j, k) = via->w(ie - 1, j, k);
+        via->p(i, j, k) = via->p(ie - 1, j, k);
       }
     }
   }
 }
 
-void ReflectBoundaryXRight(Int32 is, Int32 ie,
-                           Int32 js, Int32 je,
-                           Int32 ks, Int32 ke,
-                           Vector3DR *d_sia,
-                           Vector3DR *u_sia, Vector3DR *v_sia, Vector3DR *w_sia,
-                           Vector3DR *p_sia,
-                           Vector3DR *d_via,
-                           Vector3DR *u_via, Vector3DR *v_via, Vector3DR *w_via,
-                           Vector3DR *p_via) noexcept
+void ReflectBoundaryXRight::operator ()(Int32 is, Int32 ie,
+                                        Int32 js, Int32 je,
+                                        Int32 ks, Int32 ke,
+                                        FluidQuantity3DArray *sia,
+                                        FluidQuantity3DArray *via
+                                       ) noexcept
 {
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_sia)(i, j, k) = (*d_sia)(is, j, k);
-        (*u_sia)(i, j, k) = 0.0;
-        (*v_sia)(i, j, k) = (*v_sia)(is, j, k);
-        (*w_sia)(i, j, k) = (*w_sia)(is, j, k);
-        (*p_sia)(i, j, k) = (*p_sia)(is, j, k);
+        sia->d(i, j, k) = sia->d(is, j, k);
+        sia->u(i, j, k) = 0.0;
+        sia->v(i, j, k) = sia->v(is, j, k);
+        sia->w(i, j, k) = sia->w(is, j, k);
+        sia->p(i, j, k) = sia->p(is, j, k);
       }
     }
   }
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie - 1; ++i){
-        (*d_via)(i, j, k) = (*d_via)(is - 1, j, k);
-        (*u_via)(i, j, k) = -(*u_via)(is - 1, j, k);
-        (*v_via)(i, j, k) = (*v_via)(is - 1, j, k);
-        (*w_via)(i, j, k) = (*w_via)(is - 1, j, k);
-        (*p_via)(i, j, k) = (*p_via)(is - 1, j, k);
+        via->d(i, j, k) = via->d(is - 1, j, k);
+        via->u(i, j, k) = -via->u(is - 1, j, k);
+        via->v(i, j, k) = via->v(is - 1, j, k);
+        via->w(i, j, k) = via->w(is - 1, j, k);
+        via->p(i, j, k) = via->p(is - 1, j, k);
       }
     }
   }
 }
 
-void ReflectBoundaryYLeft(Int32 is, Int32 ie,
-                          Int32 js, Int32 je,
-                          Int32 ks, Int32 ke,
-                          Vector3DR *d_sia,
-                          Vector3DR *u_sia, Vector3DR *v_sia, Vector3DR *w_sia,
-                          Vector3DR *p_sia,
-                          Vector3DR *d_via,
-                          Vector3DR *u_via, Vector3DR *v_via, Vector3DR *w_via,
-                          Vector3DR *p_via) noexcept
+void ReflectBoundaryYLeft::operator ()(Int32 is, Int32 ie,
+                                       Int32 js, Int32 je,
+                                       Int32 ks, Int32 ke,
+                                       FluidQuantity3DArray *sia,
+                                       FluidQuantity3DArray *via
+                                      ) noexcept
 {
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_sia)(i, j, k) = (*d_sia)(i, je - 1, k);
-        (*u_sia)(i, j, k) = (*u_sia)(i, je - 1, k);
-        (*v_sia)(i, j, k) = 0.0;
-        (*w_sia)(i, j, k) = (*w_sia)(i, je - 1, k);
-        (*p_sia)(i, j, k) = (*p_sia)(i, je - 1, k);
+        sia->d(i, j, k) = sia->d(i, je - 1, k);
+        sia->u(i, j, k) = sia->u(i, je - 1, k);
+        sia->v(i, j, k) = 0.0;
+        sia->w(i, j, k) = sia->w(i, je - 1, k);
+        sia->p(i, j, k) = sia->p(i, je - 1, k);
       }
     }
   }
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je - 1; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_via)(i, j, k) = (*d_via)(i, je - 1, k);
-        (*u_via)(i, j, k) = (*u_via)(i, je - 1, k);
-        (*v_via)(i, j, k) = -(*v_via)(i, je - 1, k);
-        (*w_via)(i, j, k) = (*w_via)(i, je - 1, k);
-        (*p_via)(i, j, k) = (*p_via)(i, je - 1, k);
+        via->d(i, j, k) = via->d(i, je - 1, k);
+        via->u(i, j, k) = via->u(i, je - 1, k);
+        via->v(i, j, k) = -via->v(i, je - 1, k);
+        via->w(i, j, k) = via->w(i, je - 1, k);
+        via->p(i, j, k) = via->p(i, je - 1, k);
       }
     }
   }
 }
 
-void ReflectBoundaryYRight(Int32 is, Int32 ie,
-                           Int32 js, Int32 je,
-                           Int32 ks, Int32 ke,
-                           Vector3DR *d_sia,
-                           Vector3DR *u_sia, Vector3DR *v_sia, Vector3DR *w_sia,
-                           Vector3DR *p_sia,
-                           Vector3DR *d_via,
-                           Vector3DR *u_via, Vector3DR *v_via, Vector3DR *w_via,
-                           Vector3DR *p_via) noexcept
+void ReflectBoundaryYRight::operator ()(Int32 is, Int32 ie,
+                                        Int32 js, Int32 je,
+                                        Int32 ks, Int32 ke,
+                                        FluidQuantity3DArray *sia,
+                                        FluidQuantity3DArray *via
+                                       ) noexcept
 {
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_sia)(i, j, k) = (*d_sia)(i, js, k);
-        (*u_sia)(i, j, k) = (*u_sia)(i, js, k);
-        (*v_sia)(i, j, k) = 0.0;
-        (*w_sia)(i, j, k) = (*w_sia)(i, js, k);
-        (*p_sia)(i, j, k) = (*p_sia)(i, js, k);
+        sia->d(i, j, k) = sia->d(i, js, k);
+        sia->u(i, j, k) = sia->u(i, js, k);
+        sia->v(i, j, k) = 0.0;
+        sia->w(i, j, k) = sia->w(i, js, k);
+        sia->p(i, j, k) = sia->p(i, js, k);
       }
     }
   }
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je - 1; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_via)(i, j, k) = (*d_via)(i, js - 1, k);
-        (*u_via)(i, j, k) = (*u_via)(i, js - 1, k);
-        (*v_via)(i, j, k) = -(*v_via)(i, js - 1, k);
-        (*w_via)(i, j, k) = (*w_via)(i, js - 1, k);
-        (*p_via)(i, j, k) = (*p_via)(i, js - 1, k);
+        via->d(i, j, k) = via->d(i, js - 1, k);
+        via->u(i, j, k) = via->u(i, js - 1, k);
+        via->v(i, j, k) = -via->v(i, js - 1, k);
+        via->w(i, j, k) = via->w(i, js - 1, k);
+        via->p(i, j, k) = via->p(i, js - 1, k);
       }
     }
   }
 }
 
-void ReflectBoundaryZLeft(Int32 is, Int32 ie,
-                          Int32 js, Int32 je,
-                          Int32 ks, Int32 ke,
-                          Vector3DR *d_sia,
-                          Vector3DR *u_sia, Vector3DR *v_sia, Vector3DR *w_sia,
-                          Vector3DR *p_sia,
-                          Vector3DR *d_via,
-                          Vector3DR *u_via, Vector3DR *v_via, Vector3DR *w_via,
-                          Vector3DR *p_via) noexcept
+void ReflectBoundaryZLeft::operator ()(Int32 is, Int32 ie,
+                                       Int32 js, Int32 je,
+                                       Int32 ks, Int32 ke,
+                                       FluidQuantity3DArray *sia,
+                                       FluidQuantity3DArray *via
+                                      ) noexcept
 {
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_sia)(i, j, k) = (*d_sia)(i, j, ke - 1);
-        (*u_sia)(i, j, k) = (*u_sia)(i, j, ke - 1);
-        (*v_sia)(i, j, k) = (*v_sia)(i, j, ke - 1);
-        (*w_sia)(i, j, k) = 0.0;
-        (*p_sia)(i, j, k) = (*p_sia)(i, j, ke - 1);
+        sia->d(i, j, k) = sia->d(i, j, ke - 1);
+        sia->u(i, j, k) = sia->u(i, j, ke - 1);
+        sia->v(i, j, k) = sia->v(i, j, ke - 1);
+        sia->w(i, j, k) = 0.0;
+        sia->p(i, j, k) = sia->p(i, j, ke - 1);
       }
     }
   }
   for(auto k = ks; k < ke - 1; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_via)(i, j, k) = (*d_via)(i, j, ke - 1);
-        (*u_via)(i, j, k) = (*u_via)(i, j, ke - 1);
-        (*v_via)(i, j, k) = (*v_via)(i, j, ke - 1);
-        (*w_via)(i, j, k) = -(*w_via)(i, j, ke - 1);
-        (*p_via)(i, j, k) = (*p_via)(i, j, ke - 1);
+        via->d(i, j, k) = via->d(i, j, ke - 1);
+        via->u(i, j, k) = via->u(i, j, ke - 1);
+        via->v(i, j, k) = via->v(i, j, ke - 1);
+        via->w(i, j, k) = -via->w(i, j, ke - 1);
+        via->p(i, j, k) = via->p(i, j, ke - 1);
       }
     }
   }
 }
 
-void ReflectBoundaryZRight(Int32 is, Int32 ie,
-                           Int32 js, Int32 je,
-                           Int32 ks, Int32 ke,
-                           Vector3DR *d_sia,
-                           Vector3DR *u_sia, Vector3DR *v_sia, Vector3DR *w_sia,
-                           Vector3DR *p_sia,
-                           Vector3DR *d_via,
-                           Vector3DR *u_via, Vector3DR *v_via, Vector3DR *w_via,
-                           Vector3DR *p_via) noexcept
+void ReflectBoundaryZRight::operator ()(Int32 is, Int32 ie,
+                                        Int32 js, Int32 je,
+                                        Int32 ks, Int32 ke,
+                                        FluidQuantity3DArray *sia,
+                                        FluidQuantity3DArray *via
+                                       ) noexcept
 {
   for(auto k = ks; k < ke; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_sia)(i, j, k) = (*d_sia)(i, j, ks);
-        (*u_sia)(i, j, k) = (*u_sia)(i, j, ks);
-        (*v_sia)(i, j, k) = (*v_sia)(i, j, ks);
-        (*w_sia)(i, j, k) = 0.0;
-        (*p_sia)(i, j, k) = (*p_sia)(i, j, ks);
+        sia->d(i, j, k) = sia->d(i, j, ks);
+        sia->u(i, j, k) = sia->u(i, j, ks);
+        sia->v(i, j, k) = sia->v(i, j, ks);
+        sia->w(i, j, k) = 0.0;
+        sia->p(i, j, k) = sia->p(i, j, ks);
       }
     }
   }
   for(auto k = ks; k < ke - 1; ++k){
     for(auto j = js; j < je; ++j){
       for(auto i = is; i < ie; ++i){
-        (*d_via)(i, j, k) = (*d_via)(i, j, ks - 1);
-        (*u_via)(i, j, k) = (*u_via)(i, j, ks - 1);
-        (*v_via)(i, j, k) = (*v_via)(i, j, ks - 1);
-        (*w_via)(i, j, k) = -(*w_via)(i, j, ks - 1);
-        (*p_via)(i, j, k) = (*p_via)(i, j, ks - 1);
+        via->d(i, j, k) = via->d(i, j, ks - 1);
+        via->u(i, j, k) = via->u(i, j, ks - 1);
+        via->v(i, j, k) = via->v(i, j, ks - 1);
+        via->w(i, j, k) = -via->w(i, j, ks - 1);
+        via->p(i, j, k) = via->p(i, j, ks - 1);
       }
     }
   }
